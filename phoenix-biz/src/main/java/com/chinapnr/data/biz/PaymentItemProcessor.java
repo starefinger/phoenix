@@ -1,0 +1,38 @@
+/**
+ * 
+ */
+package com.chinapnr.data.biz;
+
+import org.springframework.batch.item.ItemProcessor;
+
+import com.chinapnr.data.core.Bill;
+import com.chinapnr.data.core.PayRecord;
+import com.chinapnr.data.core.MoneyNotEnoughException;
+
+/**
+ * @author kunrey
+ * 
+ */
+public class PaymentItemProcessor implements ItemProcessor<Bill, PayRecord> {
+
+	public PayRecord process(Bill item) throws Exception {
+		if (item.getUser().getBalance() <= 0) {
+			return null;
+		}
+		if (item.getUser().getBalance() >= item.getUnpaidFees()) {
+			// create payrecord
+			PayRecord pr = new PayRecord();
+			pr.setBill(item);
+			pr.setPaidFees(item.getUnpaidFees());
+			// update balance
+			item.getUser().setBalance(item.getUser().getBalance() - item.getUnpaidFees());
+			// update bill
+			item.setPaidFees(item.getUnpaidFees());
+			item.setUnpaidFees(0.0);
+			item.setPayStatus(1);/* paid */
+			return pr;
+		} else {
+			throw new MoneyNotEnoughException();
+		}
+	}
+}
