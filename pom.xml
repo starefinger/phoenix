@@ -60,7 +60,8 @@
   	<phoenix.version>0.0.1</phoenix.version>
   	<spring.batch.version>2.1.8.RELEASE</spring.batch.version>
   	<junit.version>4.10</junit.version>
-  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   
   	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
 <!-- 
